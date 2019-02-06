@@ -8,7 +8,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/modules")
 find_package(GFlags REQUIRED)
 find_package(Glog REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(Caffe REQUIRED)
+
+# only find caffe on osx (installed with brew)
+if (APPLE)
+    find_package(Caffe REQUIRED)
+endif (APPLE)
+
 find_package(OpenPose REQUIRED)
 
 add_executable(main main.cpp)
