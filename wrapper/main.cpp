@@ -1,4 +1,7 @@
+#include <gflags/gflags.h>
 #include <openpose/headers.hpp>
+
+DEFINE_bool(use_gpu, false, "Use GPU for rendering.");
 
 struct UserDatum : public op::Datum{
   bool someBool;
@@ -16,17 +19,17 @@ void start() {
 
   // use default pose configuration
   op::WrapperStructPose pose{};
-  pose.renderMode = op::RenderMode::Cpu;
+  pose.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
   wrapper->configure(pose);
 
   // disable face
   op::WrapperStructFace face{};
-  face.renderMode = op::RenderMode::Cpu;
+  face.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
   wrapper->configure(face);
 
   // disable hand
   op::WrapperStructHand hand{};
-  hand.renderMode = op::RenderMode::Cpu;
+  hand.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
   wrapper->configure(hand);
 
   // disable extra
@@ -53,6 +56,7 @@ void start() {
 
 void process() {
   op::log("processing...", op::Priority::High);
+  const auto timer = op::getTimerInit();
 
   // create new input list
   auto inputList = std::make_shared<std::vector<std::shared_ptr<UserDatum>>>();
@@ -108,6 +112,7 @@ void process() {
   }
 
   op::log("finished!", op::Priority::High);
+  op::printTime(timer, "Total time: ", " seconds.", op::Priority::High);
 }
 
 void stop() {
@@ -120,6 +125,9 @@ void stop() {
 }
 
 int main(int argc, char *argv[]){
+  // Parsing command line flags
+  gflags::ParseCommandLineFlags(&argc, &argv, true);
+
   // set log level
   op::ConfigureLog::setPriorityThreshold(op::Priority::Normal);
 
