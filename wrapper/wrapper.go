@@ -2,7 +2,8 @@ package wrapper
 
 /*
 #cgo CXXFLAGS: --std=c++11 -DCGO
-#cgo pkg-config: opencv4
+#cgo darwin pkg-config: opencv4
+#cgo linux pkg-config: opencv
 #cgo LDFLAGS: -lopenpose
 
 #include <stdlib.h>
