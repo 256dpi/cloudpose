@@ -1,8 +1,6 @@
 #include <gflags/gflags.h>
 #include <openpose/headers.hpp>
 
-DEFINE_bool(use_gpu, false, "Use GPU for rendering.");
-
 struct UserDatum : public op::Datum{
   bool someBool;
   UserDatum(const bool _someBool = false) : someBool{_someBool} {}
@@ -19,17 +17,18 @@ void start() {
 
   // use default pose configuration
   op::WrapperStructPose pose{};
-  pose.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
+  pose.renderMode = op::RenderMode::None;
+  pose.netInputSize = op::Point<int>{320, 176};
   wrapper->configure(pose);
 
   // disable face
   op::WrapperStructFace face{};
-  face.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
+  face.renderMode = op::RenderMode::None;
   wrapper->configure(face);
 
   // disable hand
   op::WrapperStructHand hand{};
-  hand.renderMode = FLAGS_use_gpu ? op::RenderMode::Gpu : op::RenderMode::Cpu;
+  hand.renderMode = op::RenderMode::None;
   wrapper->configure(hand);
 
   // disable extra
@@ -125,9 +124,6 @@ void stop() {
 }
 
 int main(int argc, char *argv[]){
-  // Parsing command line flags
-  gflags::ParseCommandLineFlags(&argc, &argv, true);
-
   // set log level
   op::ConfigureLog::setPriorityThreshold(op::Priority::Normal);
 
