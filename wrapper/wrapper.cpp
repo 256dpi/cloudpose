@@ -48,7 +48,7 @@ void start() {
   wrapper->start();
 }
 
-void process() {
+op::Array<float> process(const std::string& filename) {
   // create new input list
   auto inputList = std::make_shared<std::vector<std::shared_ptr<UserDatum>>>();
 
@@ -62,7 +62,7 @@ void process() {
   input = std::make_shared<UserDatum>();
 
   // fill input with image data
-  input->cvInputData = cv::imread("./photo.jpg");
+  input->cvInputData = cv::imread(filename);
 
   // process list
   auto ok = wrapper->waitAndEmplace(inputList);
@@ -79,22 +79,7 @@ void process() {
     throw std::domain_error("failed wait and pop");
   }
 
-//  // get keypoints
-//  const auto &poseKeypoints = outputList->at(0)->poseKeypoints;
-//
-//  // iterate through all key points
-//  for (auto person = 0; person < poseKeypoints.getSize(0); person++) {
-//    op::log("Person " + std::to_string(person) + " (x, y, score):");
-//
-//    // iterate through body parts
-//    for (auto bodyPart = 0; bodyPart < poseKeypoints.getSize(1); bodyPart++) {
-//      std::string print;
-//      for (auto score = 0; score < poseKeypoints.getSize(2); score++) {
-//        print += std::to_string(poseKeypoints[{person, bodyPart, score}]) + " ";
-//      }
-//      op::log(print);
-//    }
-//  }
+  return outputList->at(0)->poseKeypoints;
 }
 
 void stop() {
