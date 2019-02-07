@@ -43,13 +43,12 @@ func Start() {
 }
 
 func Process(file string, data []byte) []Person {
-	// convert file
-	cFile := C.CString(file)
-
 	// process image
 	var res _Ctype_result_t
 	if file != "" {
+		cFile := C.CString(file)
 		res = C.process(cFile, nil, 0)
+		C.free(unsafe.Pointer(cFile))
 	} else {
 		res = C.process(nil, unsafe.Pointer(&data[0]), C.size_t(len(data)))
 	}
@@ -83,9 +82,6 @@ func Process(file string, data []byte) []Person {
 
 	// release result
 	C.release(&res)
-
-	// release file
-	C.free(unsafe.Pointer(cFile))
 
 	return people
 }
