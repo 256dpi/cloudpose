@@ -45,7 +45,7 @@ void draw() {
   // draw people
   if (people != null) {
     for (Person person : people) {
-      drawPerson(person);
+      person.draw();
     }
   }
   

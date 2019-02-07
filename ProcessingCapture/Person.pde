@@ -27,18 +27,34 @@ class Person {
   static final int Background = 25;
 
   PVector[] points;
-}
 
-void drawLine(PVector a, PVector b) {
-  line(a.x, a.y, b.x, b.y);
-}
+  void drawLine(int from, int to) {
+    PVector a = points[from];
+    PVector b = points[to];
+    line(a.x, a.y, b.x, b.y);
+  }
 
-void drawPerson(Person person) {
-  // set style
-  stroke(255, 0, 0);
-  strokeWeight(2);
+  void draw() {
+    // set style
+    stroke(255, 0, 0);
+    strokeWeight(2);
 
-  drawLine(person.points[Person.Nose], person.points[Person.Neck]);
+    // draw lines
+    drawLine(Nose, Neck);
+    drawLine(Neck, RShoulder);
+    drawLine(RShoulder, RElbow);
+    drawLine(RElbow, RWrist);
+    drawLine(Neck, LShoulder);
+    drawLine(LShoulder, LElbow);
+    drawLine(LElbow, LWrist);
+    drawLine(Neck, MidHip);
+    drawLine(MidHip, RHip);
+    drawLine(RHip, RKnee);
+    drawLine(RKnee, RAnkle);
+    drawLine(MidHip, LHip);
+    drawLine(LHip, LKnee);
+    drawLine(LKnee, LAnkle);
+  }
 }
 
 Person[] decodeJSON(String data) {  
