@@ -18,14 +18,17 @@ var mutex sync.Mutex
 
 var started bool
 
+// Person is a single detected person.
 type Person struct {
 	Points [25]Point
 }
 
+// Point is a single detected point.
 type Point struct {
 	X, Y float32
 }
 
+// Start will start openpose.
 func Start() {
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -42,6 +45,8 @@ func Start() {
 	started = true
 }
 
+// Process will either load the provided file and process it or process the
+// specified image from the buffer directly.
 func Process(file string, data []byte) []Person {
 	// process image
 	var res _Ctype_result_t
@@ -53,31 +58,27 @@ func Process(file string, data []byte) []Person {
 		res = C.process(nil, unsafe.Pointer(&data[0]), C.size_t(len(data)))
 	}
 
-	// prepare slice
-	var people []Person
+	// prepare people
+	people := make([]Person, int(res.num))
 
 	// go through results
-	for i := 0; i < int(res.num); i++ {
-		// prepare person
-		var person Person
-
+	for i := 0; i < len(people); i++ {
 		// get c person
 		cPersonStart := unsafe.Pointer(res.people)
 		cPersonSize := unsafe.Sizeof(_Ctype_person_t{})
 		cPerson := (*_Ctype_person_t)(unsafe.Pointer(uintptr(cPersonStart) + cPersonSize*uintptr(i)))
 
+		// iterate through points
 		for j := 0; j < 25; j++ {
 			// get c point
 			cPoint := (*_Ctype_point_t)(unsafe.Pointer(&cPerson.points[j]))
 
-			person.Points[j] = Point{
-				X:     float32(cPoint.x),
-				Y:     float32(cPoint.y),
+			// set point
+			people[i].Points[j] = Point{
+				X: float32(cPoint.x),
+				Y: float32(cPoint.y),
 			}
 		}
-
-		// add person
-		people = append(people, person)
 	}
 
 	// release result
@@ -86,6 +87,7 @@ func Process(file string, data []byte) []Person {
 	return people
 }
 
+// Stop will stop openpose.
 func Stop() {
 	mutex.Lock()
 	defer mutex.Unlock()
