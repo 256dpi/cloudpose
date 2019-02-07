@@ -42,12 +42,17 @@ func Start() {
 	started = true
 }
 
-func Process(file string) []Person {
+func Process(file string, data []byte) []Person {
 	// convert file
 	cFile := C.CString(file)
 
 	// process image
-	res := C.process(cFile)
+	var res _Ctype_result_t
+	if file != "" {
+		res = C.process(cFile, nil, 0)
+	} else {
+		res = C.process(nil, unsafe.Pointer(&data[0]), C.size_t(len(data)))
+	}
 
 	// prepare slice
 	var people []Person
