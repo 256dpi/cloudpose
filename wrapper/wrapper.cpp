@@ -1,4 +1,4 @@
-#include <openpose/headers.hpp>
+#include "wrapper.h"
 
 struct UserDatum : public op::Datum{
   bool someBool;
@@ -48,7 +48,7 @@ void start() {
   wrapper->start();
 }
 
-op::Array<float> process(const std::string& filename) {
+result_t process(const char * filename) {
   // create new input list
   auto inputList = std::make_shared<std::vector<std::shared_ptr<UserDatum>>>();
 
@@ -62,7 +62,7 @@ op::Array<float> process(const std::string& filename) {
   input = std::make_shared<UserDatum>();
 
   // fill input with image data
-  input->cvInputData = cv::imread(filename);
+  input->cvInputData = cv::imread(std::string(filename));
 
   // process list
   auto ok = wrapper->waitAndEmplace(inputList);
@@ -79,7 +79,30 @@ op::Array<float> process(const std::string& filename) {
     throw std::domain_error("failed wait and pop");
   }
 
-  return outputList->at(0)->poseKeypoints;
+  // get keypoints
+  auto &keypoints = outputList->at(0)->poseKeypoints;
+
+  // prepare result
+  result_t result = {.num = (size_t)keypoints.getSize(0)};
+
+  // allocate persons and points
+  result.people = (person_t *)calloc(result.num, sizeof(person_t));
+
+  // go through all persons
+  for (auto person = 0; person < keypoints.getSize(0); person++) {
+    // go through all body parts
+    for (auto bodyPart = 0; bodyPart < keypoints.getSize(1); bodyPart++) {
+      result.people[person].points[bodyPart].x = keypoints[{person, bodyPart, 0}];
+      result.people[person].points[bodyPart].y = keypoints[{person, bodyPart, 1}];
+      result.people[person].points[bodyPart].score = keypoints[{person, bodyPart, 2}];
+    }
+  }
+
+  return result;
+}
+
+void release(result_t * result) {
+  free(result->people);
 }
 
 void stop() {

@@ -16,7 +16,7 @@ endif (APPLE)
 
 find_package(OpenPose REQUIRED)
 
-add_executable(main main.cpp)
+add_executable(main main.cpp wrapper.h wrapper.cpp)
 
 include_directories(${OpenPose_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${Caffe_INCLUDE_DIRS})
 target_link_libraries(main caffe ${OpenPose_LIBS} ${OpenCV_LIBS} ${Caffe_LIBRARIES})

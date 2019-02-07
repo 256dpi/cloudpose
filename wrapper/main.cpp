@@ -1,4 +1,4 @@
-#include "wrapper.cpp"
+#include "wrapper.h"
 
 int main(int argc, char *argv[]){
   // set log level
@@ -16,21 +16,22 @@ int main(int argc, char *argv[]){
     const auto timer = op::getTimerInit();
 
     // process image
-    auto keypoints = process("./photo.jpg");
+    result_t result = process("./photo.jpg");
 
-    // print all keypoints
-    for (auto person = 0; person < keypoints.getSize(0); person++) {
+    // print result
+    for(size_t person = 0; person < result.num; person++) {
       op::log("person " + std::to_string(person) + " (x, y, score):");
-
-      // iterate through body parts
-      for (auto bodyPart = 0; bodyPart < keypoints.getSize(1); bodyPart++) {
-        std::string print;
-        for (auto score = 0; score < keypoints.getSize(2); score++) {
-          print += std::to_string(keypoints[{person, bodyPart, score}]) + " ";
-        }
+      for (size_t point = 0; point < 25; point++) {
+        std::string print = "  " + std::to_string(point) + " (";
+        print += std::to_string(result.people[person].points[point].x) + ", ";
+        print += std::to_string(result.people[person].points[point].y) + ", ";
+        print += std::to_string(result.people[person].points[point].score) + ")";
         op::log(print);
       }
     }
+
+    // release result
+    release(&result);
 
     // finish timer
     op::log("finished!", op::Priority::High);
