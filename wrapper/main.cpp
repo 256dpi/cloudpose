@@ -1,5 +1,7 @@
 #include "wrapper.h"
 
+#ifndef CGO
+
 int main(int argc, char *argv[]){
   // set log level
   op::ConfigureLog::setPriorityThreshold(op::Priority::Normal);
@@ -45,3 +47,5 @@ int main(int argc, char *argv[]){
 
   return 0;
 }
+
+#endif /* CGO */
