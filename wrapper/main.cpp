@@ -131,7 +131,9 @@ int main(int argc, char *argv[]){
   start();
 
   // run
-  process();
+  for (int i=0; i<100; i++) {
+    process();
+  }
 
   // stop
   stop();
