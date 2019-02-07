@@ -24,7 +24,6 @@ class Person {
   static final int RBigToe = 22;
   static final int RSmallToe = 23;
   static final int RHeel = 24;
-  static final int Background = 25;
 
   PVector[] points;
 
@@ -60,6 +59,18 @@ class Person {
     drawLine(MidHip, LHip);
     drawLine(LHip, LKnee);
     drawLine(LKnee, LAnkle);
+    drawLine(Nose, REye);
+    drawLine(REye, REar);
+    drawLine(Nose, LEye);
+    drawLine(LEye, LEar);
+    drawLine(LAnkle, LBigToe);
+    drawLine(LAnkle, LBigToe);
+    drawLine(LAnkle, LHeel);
+    drawLine(LBigToe, LSmallToe);
+    drawLine(RAnkle, RBigToe);
+    drawLine(RAnkle, RBigToe);
+    drawLine(RAnkle, RHeel);
+    drawLine(RBigToe, RSmallToe);
   }
 }
 
