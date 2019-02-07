@@ -21,12 +21,13 @@ var started bool
 
 // Person is a single detected person.
 type Person struct {
-	Points [25]Point
+	Points [25]Point `json:"points"`
 }
 
 // Point is a single detected point.
 type Point struct {
-	X, Y float32
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
 }
 
 // Start will start openpose.
