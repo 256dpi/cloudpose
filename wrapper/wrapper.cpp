@@ -48,7 +48,7 @@ void start() {
   wrapper->start();
 }
 
-result_t process(const char * filename) {
+result_t process(const char * file, void * buf, size_t len) {
   // create new input list
   auto inputList = std::make_shared<std::vector<std::shared_ptr<UserDatum>>>();
 
@@ -62,7 +62,18 @@ result_t process(const char * filename) {
   input = std::make_shared<UserDatum>();
 
   // fill input with image data
-  input->cvInputData = cv::imread(std::string(filename));
+  if (file != nullptr && strlen(file) > 0) {
+    input->cvInputData = cv::imread(std::string(file));
+    if (input->cvInputData.data == nullptr) {
+      throw std::domain_error("failed to read image");
+    }
+  } else {
+    std::vector<char> vec((char*)buf, (char*)buf + len);
+    input->cvInputData = cv::imdecode(vec, cv::IMREAD_COLOR);
+    if (input->cvInputData.data == nullptr) {
+      throw std::domain_error("failed to decode image");
+    }
+  }
 
   // process list
   auto ok = wrapper->waitAndEmplace(inputList);

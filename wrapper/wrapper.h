@@ -22,7 +22,7 @@ typedef struct {
 
 void start();
 
-result_t process(const char * filename);
+result_t process(const char * file, void * buf, size_t len);
 
 void release(result_t * result);
 

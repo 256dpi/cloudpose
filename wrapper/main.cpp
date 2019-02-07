@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
     const auto timer = op::getTimerInit();
 
     // process image
-    result_t result = process("./photo.jpg");
+    result_t result = process("photo.jpg", nullptr, 0);
 
     // print result
     for(size_t person = 0; person < result.num; person++) {
