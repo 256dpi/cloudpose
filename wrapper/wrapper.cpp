@@ -9,6 +9,9 @@ struct UserDatum : public op::Datum{
 op::WrapperT<UserDatum> * wrapper;
 
 void start() {
+  // set log level
+  op::ConfigureLog::setPriorityThreshold(op::Priority::NoOutput);
+
   // alloc wrapper
   wrapper = new op::WrapperT<UserDatum>{op::ThreadManagerMode::Asynchronous};
 
