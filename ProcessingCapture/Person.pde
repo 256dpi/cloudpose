@@ -1,14 +1,14 @@
 class Person {
-  static final int Nose =  0;
-  static final int Neck =  1;
-  static final int RShoulder =  2;
-  static final int RElbow =  3;
-  static final int RWrist =  4;
-  static final int LShoulder =  5;
-  static final int LElbow =  6;
-  static final int LWrist =  7;
-  static final int MidHip =  8;
-  static final int RHip =  9;
+  static final int Nose = 0;
+  static final int Neck = 1;
+  static final int RShoulder = 2;
+  static final int RElbow = 3;
+  static final int RWrist = 4;
+  static final int LShoulder = 5;
+  static final int LElbow = 6;
+  static final int LWrist = 7;
+  static final int MidHip = 8;
+  static final int RHip = 9;
   static final int RKnee = 10;
   static final int RAnkle = 11;
   static final int LHip = 12;
@@ -27,7 +27,7 @@ class Person {
   static final int Background = 25;
 
   PVector[] points;
-  
+
   boolean available(int part) {
     return part >= 0 && part < 25 && points[part].x > 0 && points[part].y > 0;
   }
