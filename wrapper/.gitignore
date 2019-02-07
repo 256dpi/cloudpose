@@ -1,6 +1,2 @@
 cmake-build-debug/
 build/
-
-models/
-*.jpg
-*.png
