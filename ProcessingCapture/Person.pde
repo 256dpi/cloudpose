@@ -27,11 +27,17 @@ class Person {
   static final int Background = 25;
 
   PVector[] points;
+  
+  boolean available(int part) {
+    return part >= 0 && part < 25 && points[part].x > 0 && points[part].y > 0;
+  }
 
   void drawLine(int from, int to) {
-    PVector a = points[from];
-    PVector b = points[to];
-    line(a.x, a.y, b.x, b.y);
+    if (available(from) && available(to)) {
+      PVector a = points[from];
+      PVector b = points[to];
+      line(a.x, a.y, b.x, b.y);
+    }
   }
 
   void draw() {
