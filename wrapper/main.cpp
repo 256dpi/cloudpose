@@ -22,12 +22,11 @@ int main(int argc, char *argv[]){
 
     // print result
     for(size_t person = 0; person < result.num; person++) {
-      op::log("person " + std::to_string(person) + " (x, y, score):");
+      op::log("person " + std::to_string(person) + " (x, y):");
       for (size_t point = 0; point < 25; point++) {
         std::string print = "  " + std::to_string(point) + " (";
         print += std::to_string(result.people[person].points[point].x) + ", ";
-        print += std::to_string(result.people[person].points[point].y) + ", ";
-        print += std::to_string(result.people[person].points[point].score) + ")";
+        print += std::to_string(result.people[person].points[point].y) + ")";
         op::log(print);
       }
     }

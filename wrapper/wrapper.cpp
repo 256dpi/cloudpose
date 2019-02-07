@@ -94,7 +94,6 @@ result_t process(const char * filename) {
     for (auto bodyPart = 0; bodyPart < keypoints.getSize(1); bodyPart++) {
       result.people[person].points[bodyPart].x = keypoints[{person, bodyPart, 0}];
       result.people[person].points[bodyPart].y = keypoints[{person, bodyPart, 1}];
-      result.people[person].points[bodyPart].score = keypoints[{person, bodyPart, 2}];
     }
   }
 

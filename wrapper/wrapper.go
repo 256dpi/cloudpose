@@ -23,8 +23,7 @@ type Person struct {
 }
 
 type Point struct {
-	X, Y  float32
-	Score float32
+	X, Y float32
 }
 
 func Start() {
@@ -70,7 +69,6 @@ func Process(file string) []Person {
 			person.Points[j] = Point{
 				X:     float32(cPoint.x),
 				Y:     float32(cPoint.y),
-				Score: float32(cPoint.score),
 			}
 		}
 

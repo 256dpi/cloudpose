@@ -9,7 +9,6 @@ extern "C" {
 
 typedef struct {
   float x, y;
-  float score;
 } point_t;
 
 typedef struct {
