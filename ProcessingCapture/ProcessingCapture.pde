@@ -15,7 +15,7 @@ void setup() {
   video = new Capture(this, width, height, 15);
   video.start();
   
-  client = new Client(this, "0.0.0.0", 1337); 
+  client = new Client(this, "cloudpose.joelgaehwiler.com", 1337); 
 }
 
 void draw() {
