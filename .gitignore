@@ -4,3 +4,4 @@ models/
 .terraform*
 *.tfvars
 *.tfstate
+*.pem
