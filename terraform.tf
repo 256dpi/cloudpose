@@ -66,6 +66,8 @@ resource "aws_lb_target_group" "cloudpose" {
   vpc_id      = "${var.vpc_id}"
   target_type = "instance"
 
+  deregistration_delay = 5
+
   health_check {
     protocol = "TCP"
     port     = 1337
@@ -101,9 +103,9 @@ resource "aws_launch_configuration" "cloudpose" {
 
 resource "aws_autoscaling_group" "cloudpose" {
   name             = "cloudpose"
-  min_size         = 1
-  max_size         = 4
-  desired_capacity = 1
+  min_size         = 0
+  max_size         = 1
+  desired_capacity = 0
 
   launch_configuration = "${aws_launch_configuration.cloudpose.name}"
   target_group_arns    = ["${aws_lb_target_group.cloudpose.arn}"]
