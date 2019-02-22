@@ -104,7 +104,7 @@ resource "aws_launch_configuration" "cloudpose" {
 resource "aws_autoscaling_group" "cloudpose" {
   name             = "cloudpose"
   min_size         = 0
-  max_size         = 1
+  max_size         = 8
   desired_capacity = 0
 
   launch_configuration = "${aws_launch_configuration.cloudpose.name}"
