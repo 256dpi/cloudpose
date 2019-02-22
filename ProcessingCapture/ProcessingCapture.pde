@@ -8,6 +8,8 @@ Client client;
 Person[] people;
 
 boolean sent = false;
+long time;
+long delay;
 
 void setup() {
   size(640, 480);
@@ -37,6 +39,7 @@ void draw() {
     
     // set flag
     sent = false;
+    delay = millis() - time;
   }
   
   // draw video image
@@ -48,6 +51,9 @@ void draw() {
       person.draw();
     }
   }
+  
+  // draw delay
+  text(delay, 10, 20);
   
   if (!sent) {
     // encode image
@@ -65,5 +71,6 @@ void draw() {
     
     // set flag
     sent = true;
+    time = millis();
   }
 }
