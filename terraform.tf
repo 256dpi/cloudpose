@@ -70,7 +70,7 @@ resource "aws_lb_target_group" "cloudpose" {
 
   health_check {
     protocol = "TCP"
-    port     = 1337
+    port     = 22
   }
 }
 
