@@ -50,6 +50,9 @@ func Start() {
 // Process will either load the provided file and process it or process the
 // specified image from the buffer directly.
 func Process(file string, data []byte) []Person {
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	// process image
 	var res _Ctype_result_t
 	if file != "" {
