@@ -104,12 +104,32 @@ resource "aws_launch_configuration" "cloudpose-v2" {
 resource "aws_autoscaling_group" "cloudpose" {
   name             = "cloudpose"
   min_size         = 0
-  max_size         = 8
-  desired_capacity = 0
+  max_size         = 4
+  desired_capacity = 1
 
   launch_configuration = "${aws_launch_configuration.cloudpose-v2.name}"
   target_group_arns    = ["${aws_lb_target_group.cloudpose.arn}"]
   vpc_zone_identifier  = ["${var.subnet_id}"]
 
   wait_for_capacity_timeout = 0
+}
+
+resource "aws_autoscaling_schedule" "cloudpose-up" {
+  scheduled_action_name  = "cloudpose-up"
+  min_size               = 0
+  max_size               = 4
+  desired_capacity       = 1
+  recurrence             = "0 8 * * 1-5"
+  start_time             = "2019-02-28T08:00:00Z"
+  autoscaling_group_name = "${aws_autoscaling_group.cloudpose.name}"
+}
+
+resource "aws_autoscaling_schedule" "cloudpose-down" {
+  scheduled_action_name  = "cloudpose-down"
+  min_size               = 0
+  max_size               = 4
+  desired_capacity       = 0
+  recurrence             = "0 18 * * 1-5"
+  start_time             = "2019-02-27T18:00:00Z"
+  autoscaling_group_name = "${aws_autoscaling_group.cloudpose.name}"
 }
