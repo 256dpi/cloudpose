@@ -3,8 +3,8 @@
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 
-variable "cloudpose_ami" {
-  default = "ami-0d35ecb43584f1e6d"
+variable "cloudpose_ami_v2" {
+  default = "ami-03cff97d967cc238a"
 }
 
 variable "subnet_id" {
@@ -88,9 +88,9 @@ resource "aws_route53_record" "cloudpose" {
 
 /* Auto Scaling Group */
 
-resource "aws_launch_configuration" "cloudpose" {
-  name            = "cloudpose"
-  image_id        = "${var.cloudpose_ami}"
+resource "aws_launch_configuration" "cloudpose-v2" {
+  name            = "cloudpose-v2"
+  image_id        = "${var.cloudpose_ami_v2}"
   instance_type   = "p2.xlarge"
   key_name        = "${var.key_name}"
   security_groups = ["${var.security_group}"]
@@ -107,7 +107,7 @@ resource "aws_autoscaling_group" "cloudpose" {
   max_size         = 8
   desired_capacity = 0
 
-  launch_configuration = "${aws_launch_configuration.cloudpose.name}"
+  launch_configuration = "${aws_launch_configuration.cloudpose-v2.name}"
   target_group_arns    = ["${aws_lb_target_group.cloudpose.arn}"]
   vpc_zone_identifier  = ["${var.subnet_id}"]
 
