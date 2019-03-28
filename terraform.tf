@@ -1,42 +1,24 @@
 /* Variables */
 
-variable "aws_access_key" {}
-variable "aws_secret_key" {}
+variable "access_key" {}
+variable "secret_key" {}
 
-variable "cloudpose_ami_v2" {
-  default = "ami-03cff97d967cc238a"
-}
+variable "region" {}
+variable "subnet_id" {}
+variable "vpc_id" {}
+variable "zone_id" {}
+variable "domain_name" {}
+variable "key_name" {}
+variable "security_group" {}
 
-variable "subnet_id" {
-  default = "subnet-1b716163"
-}
-
-variable "vpc_id" {
-  default = "vpc-37bd555e"
-}
-
-variable "zone_id" {
-  default = "Z38NKR99753R8C"
-}
-
-variable "domain_name" {
-  default = "cloudpose.joelgaehwiler.com"
-}
-
-variable "key_name" {
-  default = "personal"
-}
-
-variable "security_group" {
-  default = "sg-156d987c"
-}
+variable "cloudpose_ami_v2" {}
 
 /* Provider */
 
 provider "aws" {
-  region     = "eu-central-1"
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
+  region     = "${var.region}"
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
 }
 
 /* Load Balancer */
